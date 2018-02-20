@@ -21,5 +21,6 @@ An addon board allows the usage of VGA.
 
 21.07.2017: 
 uploaded a preliminary design of the PCB Layout
+
 20.02.2018:
 Redesign the whole board, moved away from the Raspberry Pi form factor
