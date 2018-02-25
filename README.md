@@ -24,3 +24,6 @@ uploaded a preliminary design of the PCB Layout
 
 20.02.2018:
 Redesign the whole board, moved away from the Raspberry Pi form factor
+
+25.02.2018:
+released new design.
