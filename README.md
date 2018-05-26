@@ -6,6 +6,7 @@ The Blueberry PI will feature:
 - 100 mbps Ethernet 
 - 1 USB Port 
 - MIPI CSI interface (unfortunately no software support yet) 
+- Pinheader for OV2640 and OV7670
 - Wifi and bluetooth 
 - RGB interface for connecting displays 
 - Audio jack 
@@ -14,7 +15,7 @@ The Blueberry PI will feature:
 - a Raspberry PI compatible header
 - SPI Flash
 - SD card slot
-- Lipo battery management (charging)
+
 
 The Blueberry PI can boot from an SD card or SPI Flash. 
 An addon board allows the usage of VGA.
@@ -27,3 +28,6 @@ Redesign the whole board, moved away from the Raspberry Pi form factor
 
 25.02.2018:
 released new design.
+
+26.05.2018
+released new design
