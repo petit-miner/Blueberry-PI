@@ -1,12 +1,14 @@
 Blueberry PI
 
 Another fruit single board computer (SBC), based on the Allwinner V3s system on a chip (SOC). 
-The Blueberry PI is in development, the release date of the first prototype is unknown. 
-The Blueberry PI will feature: 
+The Allwinner V3s comes in an easy to solder 128pin TQFP package. 
+
+The Blueberry PI features: 
+
 - 100 mbps Ethernet 
-- 1 USB Port 
-- MIPI CSI interface (unfortunately no software support yet) 
-- Pinheader for OV2640 and OV7670
+- 1 USB Host Port / 1 mini USB port 
+- MIPI CSI interface (unfortunately no support in the linux kernel yet) 
+- Pinheader for an OV2640 and an OV7670
 - Wifi and bluetooth 
 - RGB interface for connecting displays 
 - Audio jack 
@@ -18,16 +20,5 @@ The Blueberry PI will feature:
 
 
 The Blueberry PI can boot from an SD card or SPI Flash. 
-An addon board allows the usage of VGA.
+Since the V3s doesn't have a standard video output, I'm planning on creating a video addon board which provides VGA or HDMI. In combination with the ADV7611 it is possible to capture HDMI.
 
-21.07.2017: 
-uploaded a preliminary design of the PCB Layout
-
-20.02.2018:
-Redesign the whole board, moved away from the Raspberry Pi form factor
-
-25.02.2018:
-released new design.
-
-26.05.2018
-released new design
