@@ -22,3 +22,4 @@ The Blueberry PI features:
 The Blueberry PI can boot from an SD card or SPI Flash. 
 Since the V3s doesn't have a standard video output, I'm planning on creating a video addon board which provides VGA or HDMI. In combination with the ADV7611 it is possible to capture HDMI.
 
+If you have any questions email me at marcel[dot]thuermer(at)smail[dot]emt[dot]h[minus]brs[dot]de

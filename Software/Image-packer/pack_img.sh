@@ -108,6 +108,6 @@ if [ $? -ne 0 ]
 	exit
 fi
 
-echo_log "The lichee_zero-${_DISTRO}.dd has been created successfully!"
+echo_log "The image-${_DISTRO}.dd has been created successfully!"
 exit
 
