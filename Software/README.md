@@ -1,10 +1,10 @@
 Software
 
-The precompiled Kernel (4.17) has support for:
+The mainline linux kernel (4.17) has support for:
 - basic SOC features
 - Ethernet
 - USB 
-- parallel CSI (not in mainline Kernel yet, see patch)
+- parallel CSI (not in mainline kernel yet, see patch)
 - RGB and TCON 
 - UART
 - I²C
