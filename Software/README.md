@@ -20,5 +20,5 @@ Whats not implemented:
 - MIPI CSI 
 - Video Engine (encoding / decoding video)
 
- Have a look at the wiki to find out how to build your own mainline kernel and rootfs. (work in progress) 
+ Have a look at the wiki to find out how to build your own mainline kernel and rootfs.
 
