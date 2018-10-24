@@ -1,25 +1,23 @@
 Blueberry PI
 
-Another fruit single board computer (SBC), based on the Allwinner V3s system on a chip (SOC). 
-The Allwinner V3s comes in an easy to solder 128pin TQFP package. 
+I have designed this PCB, because the sheer power of this SoC, at very low power consumption, combined with its display capabilities, it offers options that makers have never seen before. 
 
-The Blueberry PI features: 
+The Blueberry PI:<br>
+• SoC Allwinner V3s:<br>
+	- ARM Cortex-A7 @ 1.2GHz<br>
+	- 64 Megabyte of RAM<br>
+•	Ethernet Jack<br>
+•	Wifi and Bluetooth (RTL8723BS)  <br>
+•	1 USB Host Port / 1 micro USB port <br> 
+•	MIPI CSI interface, pin compatible with the Raspberry Pi camera<br>
+•	pinheader for an OV2640 and an OV7670 parallel camera<br>
+•	parallel RGB interface, compatible with 40pin parallel RGB displays<br>
+•	Audio jack (3,5mm)<br>
+•	onboard microphone<br>
+•	four costumizeable buttons and one reset buttons <br>
+•	a 26pin Raspberry PI compatible header<br>
+•	SPI Flash <br>
+•	SD card slot<br>
 
-- 100 mbps Ethernet 
-- 1 USB Host Port / 1 mini USB port 
-- MIPI CSI interface (unfortunately no support in the linux kernel yet) 
-- Pinheader for an OV2640 and an OV7670
-- Wifi and bluetooth 
-- RGB interface for connecting displays 
-- Audio jack 
-- an onboard microphone 
-- four buttons for play, pause, next and previous 
-- a Raspberry PI compatible header
-- SPI Flash
-- SD card slot
-
-
-The Blueberry PI can boot from an SD card or SPI Flash. 
-Since the V3s doesn't have a standard video output, I'm planning on creating a video addon board which provides VGA or HDMI. In combination with the ADV7611 it is possible to capture HDMI.
-
+The Blueberry PI can boot from an SD card or SPI Flash. <br>
 If you have any questions email me at marcel[dot]thuermer(at)smail[dot]emt[dot]h[minus]brs[dot]de
