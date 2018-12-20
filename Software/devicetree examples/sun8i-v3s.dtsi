@@ -16,14 +16,7 @@
 		#size-cells = <1>;
 		ranges;
 		
-       		
-		fb0: framebuffer@0 {
-			compatible = "allwinner,simple-framebuffer", "simple-framebuffer";
-			allwinner,pipeline = "de0-lcd0";
-			clocks = <0x2 0x21 0x2 0x23 0x2 0x3f 0x2 0x40>;
-			status = "disabled";
-		};
-	};
+       	};
 			
 
 	
@@ -77,12 +70,7 @@
 		};
 
 
-		can0_osc: can0_osc {
-                compatible = "fixed-clock";
-                #clock-cells = <0>;
-                clock-frequency  = <16000000>;
-		clock-output-names = "can0_osc";
-};
+		
 	};
 
 	soc {
@@ -108,7 +96,7 @@
 			resets = <&ccu RST_BUS_DE>;
 			#clock-cells = <1>;
 			#reset-cells = <1>;
-			
+			status = "disabled";
 		};
 
 		mixer0: mixer@1100000 {
@@ -177,14 +165,13 @@
 		};
 	
 
-
 	csi1: csi@1cb4000 {
 			compatible = "allwinner,sun8i-v3s-csi";
 			reg = <0x01cb4000 0x1000>;
 			interrupts = <GIC_SPI 84 IRQ_TYPE_LEVEL_HIGH>;
 			clocks = <&ccu CLK_BUS_CSI>,
-		 	<&ccu CLK_CSI1_SCLK>,
-		 	<&ccu CLK_DRAM_CSI>;
+					<&ccu CLK_CSI1_SCLK>,
+					<&ccu CLK_DRAM_CSI>;
 			clock-names = "bus", "mod", "ram";
 			resets = <&ccu RST_BUS_CSI>;
 			status = "disabled";
@@ -285,23 +272,26 @@
 		};
 
 	ehci0: usb@01c1a000 {
-                         compatible = "allwinner,sun8i-v3s-ehci", "generic-ehci";
-                         reg = <0x01c1a000 0x100>;
-                         interrupts = <GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>;
-                         clocks = <&ccu CLK_BUS_EHCI0>, <&ccu CLK_BUS_OHCI0>;
-                         resets = <&ccu RST_BUS_EHCI0>, <&ccu RST_BUS_OHCI0>;
-                         
-                 };
-	
+		compatible = "allwinner,sun8i-v3s-ehci", "generic-ehci";
+		reg = <0x01c1a000 0x100>;
+		interrupts = <GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>;
+		clocks = <&ccu CLK_BUS_EHCI0>, <&ccu CLK_BUS_OHCI0>;
+		resets = <&ccu RST_BUS_EHCI0>, <&ccu RST_BUS_OHCI0>;
+		phys = <&usbphy 0>;
+   		phy-names = "usb";
+		status = "disable";
+	};
+
 	ohci0: usb@01c1a400 {
-                         compatible = "allwinner,sun8i-v3s-ohci", "generic-ohci";
-                         reg = <0x01c1a400 0x100>;
-                         interrupts = <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>;
-                         clocks = <&ccu CLK_BUS_EHCI0>, <&ccu CLK_BUS_OHCI0>,
-                                  <&ccu CLK_USB_OHCI0>;
-                         resets = <&ccu RST_BUS_EHCI0>, <&ccu RST_BUS_OHCI0>;
-                         
-                 }; 
+		compatible = "allwinner,sun8i-v3s-ohci", "generic-ohci";
+		reg = <0x01c1a400 0x100>;
+		interrupts = <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>;
+		clocks = <&ccu CLK_BUS_EHCI0>, <&ccu CLK_BUS_OHCI0>, <&ccu CLK_USB_OHCI0>;
+		resets = <&ccu RST_BUS_EHCI0>, <&ccu RST_BUS_OHCI0>;
+		phys = <&usbphy 0>;
+   		phy-names = "usb";
+		status = "disable";
+	}; 
 
 	ccu: clock@1c20000 {
 			compatible = "allwinner,sun8i-v3s-ccu";

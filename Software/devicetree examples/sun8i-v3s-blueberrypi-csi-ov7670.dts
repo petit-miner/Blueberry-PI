@@ -14,16 +14,9 @@
 
 	chosen {
 		stdout-path = "serial0:115200n8";
-		
-		fb0: framebuffer@0 {
-			compatible = "allwinner,simple-framebuffer", "simple-framebuffer";
-			allwinner,pipeline = "de0-lcd0";
-			clocks = <0x2 0x21 0x2 0x23 0x2 0x3f 0x2 0x40>;
-			status = "disabled";
-		};
 	};
-	
-leds {
+
+	leds {
 	compatible = "gpio-leds";
 
 	act_led {
@@ -31,11 +24,61 @@ leds {
 		gpios = <&pio 1 2 GPIO_ACTIVE_HIGH>; /* PB2 */
 		linux,default-trigger = "mmc0";
 		default-state = "off";
-		};
-	
 	};
-	
+	};
 };
+
+
+
+&csi1 {
+	status = "okay";
+    pinctrl-names = "default";
+    pinctrl-0 = <&csi1_clk &csi1_8bit>;
+
+port {
+	
+	
+	csi1_ep: endpoint {
+		remote-endpoint = <&ov7670_0>;
+		  bus-width = <8>;
+				hsync-active = <0>;
+				vsync-active = <0>;
+				pclk-sample = <1>;
+		
+		};
+};
+ };
+
+&i2c1 {
+    	pinctrl-0 = <&i2c1_pins>;
+	pinctrl-names = "default";
+	status = "okay";
+
+	
+	ov7670: camera@21 {
+		compatible = "ovti,ov7670";
+		reg = <0x21>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&csi1_mclk>;
+		clocks = <&ccu CLK_CSI1_MCLK>;
+		clock-names = "xclk";
+		assigned-clock-rates = <24000000>;
+		
+		port {
+			ov7670_0: endpoint {
+				remote-endpoint = <&csi1_ep>;
+				 hsync-active = <1>;
+				vsync-active = <0>;
+				bus-width = <8>;
+				data-active = <1>;
+				pclk-sample = <1>;
+					
+			};
+		};
+	};
+};
+
+
 
 &mmc0 {
 	pinctrl-0 = <&mmc0_pins>;
@@ -54,7 +97,6 @@ leds {
 	vmmc-supply = <&reg_vcc3v3>;
 	status = "okay";
 };
-
 
 &usb_otg {
 	dr_mode = "otg";
@@ -76,27 +118,20 @@ leds {
                          
     status = "okay";
 };
-                 
+
 &emac {
 	allwinner,leds-active-high;
 	status = "okay";
 };
 
-&i2c0 {
-	pinctrl-0 = <&i2c0_pins>;
+&uart0 {
+	pinctrl-0 = <&uart0_pins>;
 	pinctrl-names = "default";
 	status = "okay";
 };
 
-&i2c1 {
-    	pinctrl-0 = <&i2c1_pins>;
-		pinctrl-names = "default";
-		status = "okay";
-};
-
-
-&uart0 {
-	pinctrl-0 = <&uart0_pins>;
+&i2c0 {
+	pinctrl-0 = <&i2c0_pins>;
 	pinctrl-names = "default";
 	status = "okay";
 };
@@ -109,7 +144,7 @@ leds {
 };
 
 &codec {
-	allwinner,audio-routing = "Headphone", "HP", "Headphone", "HPCOM", "MIC1", "Mic", "Mic", "HBIAS";
+	allwinner,audio-routing = "Headphone", "HP", "Headphone", "HPCOM", "Mic", "MIC1";
 	status = "okay";
 };
 
@@ -147,12 +182,24 @@ leds {
 };
 
 &pio {
-	
-	uart0_pins: uart0@0 {
-	 	pins = "PB8", "PB9";
-		function = "uart0";
-	};
-	
+	csi1_8bit: csi1-8bit@0 {
+	       pins 	 = "PE8","PE9","PE10","PE11","PE12","PE13","PE14","PE15";
+	       bias-pullup;
+	       function = "csi";
+    	};
+
+	csi1_clk: csi1-clk@0 {
+	        pins = "PE0","PE2","PE3";
+	        bias-pullup;
+	        function = "csi";
+    	};
+    
+    csi1_mclk: csi1-mclk@0 {
+	        pins = "PE1";
+	        bias-pullup;
+	        function = "csi";
+    	};
+
 	i2c0_pins: i2c0 {
 		pins = "PB6", "PB7";
 		function = "i2c0";
@@ -163,10 +210,15 @@ leds {
 		function = "i2c1";
 	};
 	
+
+	uart0_pins: uart0@0 {
+	 	pins = "PB8", "PB9";
+		function = "uart0";
+	};
+	
 	usb0_id_detect_pin: usbid@0 {
 	 	pins = "PF6";
 		function = "gpio_in";
 	};
-	
 };
 

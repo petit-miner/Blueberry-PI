@@ -1,0 +1,931 @@
+/*
+ * Copyright (C) 2016 Texas Instruments Incorporated - http://www.ti.com/
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ */
+
+#include "dra7-evm.dts"
+
+/ {
+	memory {
+		device_type = "memory";
+		//reg = <0x0 0x80000000 0x0 0x80000000>; /* 2 GB */
+		reg = <0x0 0x80000000 0x0 0xC0000000>; /* 3 GB */
+		
+	};
+
+	leds {
+		status = "disabled";
+	};
+
+	gpio_keys {
+		status = "disabled";
+	};
+	jamr3_sound{
+		status = "disabled";
+	};
+	
+	primary_sound{
+		status = "disabled";
+	};
+
+};
+
+&evm_3v3_sd {
+		gpio = <>;
+};
+
+&snd0 {
+	status = "disabled";
+};
+
+&hdmi0 {
+	status = "disabled";
+};
+
+&tpd12s015 {
+	status = "disabled";
+};
+
+&pcf_lcd {
+	status = "disabled";
+};
+
+&pcf_gpio_21 {
+	status = "disabled";
+};
+
+&lcd_fpd {
+	status = "disabled";
+};
+
+&extcon_usb1 {
+	//fake gpio
+	id-gpios = <&gpio3 24 GPIO_ACTIVE_HIGH>;
+};
+
+&extcon_usb2 {
+	//fake gpio
+	id-gpios = <&gpio3 25 GPIO_ACTIVE_HIGH>;
+};
+
+&usb1 {
+   dr_mode = "host";
+};
+
+&tlv320aic3106 {
+	status = "disabled";
+};
+
+&pcf_hdmi {
+	status = "disabled";
+};
+
+&i2c_p3_exp {
+	ov10633@37 {
+		status = "disabled";
+	};
+};
+
+&tvp_5158 {
+	status = "disabled";
+};
+
+&disp_ser {
+	status = "disabled";
+};
+
+&pcie1_rc {
+	status = "disabled";
+};
+
+&elm {
+	status = "okay";
+};
+
+#if 1
+&gpmc {
+	status = "okay";
+	ranges = <0 0 0x08000000 0x01000000>;	/* minimum GPMC partition = 16MB */
+	nand@0,0 {
+		compatible = "ti,omap2-nand";
+		reg = <0 0 4>;		/* device IO registers */
+		interrupt-parent = <&gpmc>;
+		interrupts = <0 IRQ_TYPE_NONE>, /* fifoevent */
+			     <1 IRQ_TYPE_NONE>; /* termcount */
+		rb-gpios = <&gpmc 0 GPIO_ACTIVE_HIGH>; /* gpmc_wait0 pin */
+		ti,nand-ecc-opt = "bch8";
+		ti,elm-id = <&elm>;
+		nand-bus-width = <16>;
+		gpmc,device-width = <2>;
+		gpmc,sync-clk-ps = <0>;
+		gpmc,cs-on-ns = <0>;
+		gpmc,cs-rd-off-ns = <80>;
+		gpmc,cs-wr-off-ns = <80>;
+		gpmc,adv-on-ns = <0>;
+		gpmc,adv-rd-off-ns = <60>;
+		gpmc,adv-wr-off-ns = <60>;
+		gpmc,we-on-ns = <10>;
+		gpmc,we-off-ns = <50>;
+		gpmc,oe-on-ns = <4>;
+		gpmc,oe-off-ns = <40>;
+		gpmc,access-ns = <40>;
+		gpmc,wr-access-ns = <80>;
+		gpmc,rd-cycle-ns = <80>;
+		gpmc,wr-cycle-ns = <80>;
+		gpmc,bus-turnaround-ns = <0>;
+		gpmc,cycle2cycle-delay-ns = <0>;
+		gpmc,clk-activation-ns = <0>;
+		gpmc,wr-data-mux-bus-ns = <0>;
+		/* MTD partition table */
+		/* All SPL-* partitions are sized to minimal length
+		 * which can be independently programmable. For
+		 * NAND flash this is equal to size of erase-block */
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+		partition@0 {
+			label = "NAND.device.0";
+			reg = <0x00000000 0x10000000>;  /*256 MB*/
+		};
+
+	/*
+		partition@0 {
+			label = "NAND.SPL";
+			reg = <0x00000000 0x000020000>;
+		};
+		partition@1 {
+			label = "NAND.SPL.backup1";
+			reg = <0x00020000 0x00020000>;
+		};
+		partition@2 {
+			label = "NAND.SPL.backup2";
+			reg = <0x00040000 0x00020000>;
+		};
+		partition@3 {
+			label = "NAND.SPL.backup3";
+			reg = <0x00060000 0x00020000>;
+		};
+		partition@4 {
+			label = "NAND.u-boot-spl-os";
+			reg = <0x00080000 0x00040000>;
+		};
+		partition@5 {
+			label = "NAND.u-boot";
+			reg = <0x000c0000 0x00100000>;
+		};
+		partition@6 {
+			label = "NAND.u-boot-env";
+			reg = <0x001c0000 0x00020000>;
+		};
+		partition@7 {
+			label = "NAND.u-boot-env.backup1";
+			reg = <0x001e0000 0x00020000>;
+		};
+		partition@8 {
+			label = "NAND.kernel";
+			reg = <0x00200000 0x00800000>;
+		};
+		partition@9 {
+			label = "NAND.file-system";
+			reg = <0x00a00000 0x0f600000>;
+		};
+	*/
+
+	};
+};
+#endif
+
+
+&qspi {
+	status = "okay";
+
+	spi-max-frequency = <76800000>;
+	m25p80@0 {
+		compatible = "s25fl256s1";
+		spi-max-frequency = <76800000>;
+		reg = <0>;
+		spi-tx-bus-width = <1>;
+		spi-rx-bus-width = <4>;
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+		/* MTD partition table.
+		 * The ROM checks the first four physical blocks
+		 * for a valid file to boot and the flash here is
+		 * 64KiB block size.
+		 */
+		partition@0 {
+			label = "QSPI.MLO";
+			reg = <0x00000000 0x000040000>;
+		};
+		partition@1 {
+			label = "QSPI.u-boot";
+			reg = <0x00040000 0x00100000>;
+		};
+		partition@2 {
+			label = "QSPI.DRA7-evm.dtb";
+			reg = <0x00140000 0x00080000>;
+		};
+		partition@3 {
+			label = "QSPI.u-boot-env";
+			reg = <0x001c0000 0x00010000>;
+		};
+		partition@4 {
+			label = "QSPI.u-boot-env.backup1";
+			reg = <0x001d0000 0x0010000>;
+		};
+		partition@5 {
+			label = "QSPI.uImage";
+			reg = <0x001e0000 0x0800000>;
+		};
+		partition@6 {
+			label = "QSPI.IPU-exe";
+			reg = <0x009e0000 0x01620000>;
+		};
+	};
+};
+
+&mailbox5 {
+	status = "disabled";
+};
+
+&mailbox6 {
+	status = "disabled";
+};
+
+&mmu0_dsp1 {
+	status = "disabled";
+};
+
+&mmu1_dsp1 {
+	status = "disabled";
+};
+
+&mmu0_dsp2 {
+	status = "disabled";
+};
+
+&mmu1_dsp2 {
+	status = "disabled";
+};
+
+&mmu_ipu1 {
+	status = "disabled";
+};
+
+&mmu_ipu2 {
+	status = "disabled";
+};
+
+&ipu2 {
+	status = "disabled";
+};
+
+&ipu1 {
+	status = "disabled";
+};
+
+&dsp1 {
+	status = "disabled";
+};
+
+&dsp2 {
+	status = "disabled";
+};
+
+&dss {
+	status = "disabled";
+};
+
+&hdmi {
+	status = "disabled";
+};
+
+#if 0
+&vip1 {
+	status = "disabled";
+};
+
+&video_in {
+	status = "disabled";
+};
+#endif
+
+&reserved_mem {
+	status = "disabled";
+};
+
+
+&pcf_jamr3_21 {
+	status = "disabled";
+};
+
+&tlv320aic3106a {
+	status = "disabled";
+};
+
+&tlv320aic3106b {
+	status = "disabled";
+};
+
+&tlv320aic3106c {
+	status = "disabled";
+};
+
+&mcasp7 {
+	status = "disabled";
+};
+
+&mcasp8 {
+	status = "disabled";
+};
+
+&mcasp2 {
+	status = "okay";
+};
+
+&mcasp3 {
+	status = "okay";
+};
+&mcasp6 {
+	status = "disabled";
+};
+
+&ipu2_cma_pool {
+	status = "disabled";
+};
+
+&dsp1_cma_pool {
+	status = "disabled";
+};
+
+&ipu1_cma_pool {
+	status = "disabled";
+};
+
+&dsp2_cma_pool {
+	status = "disabled";
+};
+
+&cmem_radio {
+	status = "disabled";
+};
+
+&dsp1_sr0 {
+	status = "disabled";
+};
+
+&uart4 {
+	status = "okay";
+};
+
+&uart8 {
+	status = "okay";
+};
+
+&uart5 {
+	status = "okay";
+};
+
+&uart9 {
+	status = "okay";
+};
+
+&uart10 {
+	status = "okay";
+};
+
+&mmc4 {
+	status = "disabled";
+};
+
+/*********************************below for video port enable test***************************************/
+/* VIN2A pins mapped to VIP1 */
+
+&vip2 {
+	status = "okay";
+        pinctrl-names = "default";
+        /*
+                Pinmux conflict between vin1a:16-23 & vin2a:0-8
+                Either use full 24bit of vin1a or use 16bit vin1a and 8bitvin2a
+                TO enable cam2, uncomment this
+                pinctrl-0 = <&vin1a_pins &vin2a>;
+        */
+        pinctrl-0 = <&vin3a_pins >;
+};
+
+&vin3a {
+	status = "okay";
+        endpoint@0 {
+                slave-mode;
+                remote-endpoint = <&hdmi_receiver>;
+        };
+};
+
+
+&vip1 {
+	status = "disabled";
+};
+
+
+video3a_in: &vin3a {
+	status = "okay";
+	endpoint@0 {
+		slave-mode;
+		remote-endpoint = <&hdmi_receiver>;
+	};
+};
+
+
+&i2c1 {
+	status = "okay";
+	clock-frequency = <400000>;
+
+
+	adv7611: adv7611@4c {
+                compatible = "adv7611";
+                reg = <0x4c>;
+
+                port {
+                        hdmi_receiver: endpoint {
+			#if 0
+                                hsync-active = <1>;
+                                vsync-active = <1>;
+			#endif
+                                pclk-sample = <1>;
+                        };
+                };
+
+        };
+};
+
+/**********************************up for video port enable test*****************************************/
+
+&i2c1 {
+	status = "okay";
+	clock-frequency = <400000>;
+};
+
+&i2c2 {
+	status = "okay";
+	clock-frequency = <400000>;
+};
+
+&i2c3 {
+	status = "okay";
+	clock-frequency = <400000>;
+};
+
+&i2c4 {
+	status = "okay";
+	clock-frequency = <400000>;
+};
+
+&i2c5 {
+	status = "okay";
+	clock-frequency = <400000>;
+};
+
+&mcspi1 {
+	status = "okay";
+			
+	spidev@0 {
+                spi-max-frequency = <24000000>;
+                reg = <0>;
+               compatible = "rohm,dh2228fv";
+               /*compatible = "linux,spidev";*/
+           	};
+};
+
+&mcspi2 {
+	status = "okay";
+	
+	spidev@1 {
+	spi-max-frequency = <24000000>;
+	reg = <0>;
+	compatible = "rohm,dh2228fv";
+               };
+};
+
+&mcspi3 {
+	status = "okay";
+	spidev@2 {
+		spi-max-frequency = <24000000>;
+		reg = <0>;
+		compatible = "rohm,dh2228fv";
+               };
+};
+
+&mcspi4 {
+	status = "okay";
+	spidev@3 {
+		spi-max-frequency = <24000000>;
+		reg = <0>;
+		compatible = "rohm,dh2228fv";
+               };
+};
+
+
+&mcasp1 {
+	#sound-dai-cells = <0>;
+
+	assigned-clocks = <&mcasp1_ahclkx_mux>;
+	assigned-clock-parents = <&atl_clkin1_ck>;
+
+	status = "okay";
+
+	op-mode = <0>;          // MCASP_IIS_MODE //
+	tdm-slots = <2>;
+	// 4 serializer //
+	serial-dir = <  // 0: INACTIVE, 1: TX, 2: RX //
+		0 0 1 2
+	>;
+	tx-num-evt = <32>;
+	rx-num-evt = <32>;
+};
+
+&mcasp2 {
+	#sound-dai-cells = <0>;
+
+	assigned-clocks = <&mcasp2_ahclkx_mux>;
+	assigned-clock-parents = <&atl_clkin1_ck>;
+
+	status = "okay";
+
+	op-mode = <0>;          // MCASP_IIS_MODE //
+	tdm-slots = <2>;
+	// 4 serializer //
+	serial-dir = <  // 0: INACTIVE, 1: TX, 2: RX //
+		0 0 1 2
+	>;
+	tx-num-evt = <32>;
+	rx-num-evt = <32>;
+};
+
+&mcasp3 {
+	#sound-dai-cells = <0>;
+
+	assigned-clocks = <&mcasp3_ahclkx_mux>;
+	assigned-clock-parents = <&atl_clkin1_ck>;
+
+	status = "okay";
+
+	op-mode = <0>;          // MCASP_IIS_MODE //
+	tdm-slots = <2>;
+	// 4 serializer //
+	serial-dir = <  // 0: INACTIVE, 1: TX, 2: RX //
+		0 0 1 2
+	>;
+	tx-num-evt = <32>;
+	rx-num-evt = <32>;
+};
+
+&atl {
+	assigned-clock-parents = <&sys_clkin1>, <&dpll_abe_m2_ck>;
+};
+
+&mac {
+	status = "okay";
+	active_slave = <1>;
+};
+
+&davinci_mdio {
+	status = "okay";
+	
+	micrel_phy_config {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		micrel,led-mode = <1>;
+		clock-names = "rmii-ref";	
+		clocks = <&rmii_50M_clock>;
+	};
+	
+	rmii_50M_clock: rmii-ref{
+		#clock-cells = <0>;
+		compatible ="fixed-clock";
+		clock-frequency = <50000000>;		
+	};
+};
+
+&cpsw_emac1 {
+	phy_id = <&davinci_mdio>, <4>;
+	phy-mode = "rmii";
+	status = "okay";
+};
+
+&phy_sel {
+rmii-clock-ext;
+};
+
+&oppdm_mpu {
+	status = "disabled";
+};
+
+&epwmss0 {
+	status = "okay";
+};
+#if 0
+&ehrpwm0 {
+	status = "okay";
+};
+#endif
+&ecap0 {
+	status = "okay";
+};
+
+&epwmss1 {
+	status = "okay";
+};
+#if 0
+&ehrpwm1 {
+	status = "okay";
+};
+#endif
+&ecap1 {
+	status = "okay";
+};
+
+&epwmss2 {
+	status = "okay";
+};
+#if 0
+&ehrpwm2 {
+	status = "okay";
+};
+#endif
+&ecap2 {
+	status = "okay";
+};
+
+&dra7_pmx_core {
+	pinctrl-names = "default";
+	pinctrl-0 = <&man2020_pins>;
+	man2020_pins: man2020_pins {
+		pinctrl-single,pins = <
+
+			0x3B0 (MUX_MODE0 | PIN_INPUT_PULLUP)	/* spi1_cs0.spi1_cs0 */
+			0x3B4 (MUX_MODE0 | PIN_INPUT_PULLUP)	/* spi1_cs1.spi1_cs1 */
+			0x3A4 (MUX_MODE0 | PIN_INPUT_PULLDOWN)	/* spi1_sclk.spi1_sclk */
+			0x3AC (MUX_MODE0 | PIN_INPUT_PULLDOWN)	/* spi1_d0.spi1_d0 */
+			0x3A8 (MUX_MODE0 | PIN_INPUT_PULLDOWN)	/* spi1_d1.spi1_d1 */
+			0x3C8 (MUX_MODE0 | PIN_INPUT_PULLDOWN)	/* spi2_d0.spi2_d0 */
+			0x3C4 (MUX_MODE0 | PIN_INPUT_PULLDOWN)	/* spi2_d1.spi2_d1 */
+			0x3CC (MUX_MODE0 | PIN_INPUT_PULLUP)	/* spi2_cs0.spi2_cs0 */
+			0x3C0 (MUX_MODE0 | PIN_INPUT_PULLDOWN)	/* spi2_sclk.spi2_sclk */
+			0x264 (MUX_MODE7 | PIN_INPUT_PULLDOWN)	/* rgmii0_txd0.spi4_cs0 */
+			0x260 (MUX_MODE7 | PIN_INPUT_PULLDOWN)	/* rgmii0_txd1.spi4_d0 */
+			0x25C (MUX_MODE7 | PIN_INPUT_PULLDOWN)	/* rgmii0_txd2.spi4_d1 */
+			0x258 (MUX_MODE7 | PIN_INPUT_PULLDOWN)	/* RGMII0_TXD3.spi4_sclk */
+
+			
+			0x40C (MUX_MODE0 | PIN_INPUT_PULLUP)	/* i2c2_scl.i2c2_scl */
+			0x408 (MUX_MODE0 | PIN_INPUT_PULLUP)	/* i2c2_sda.i2c2_sda */
+			0x378 (MUX_MODE2 | PIN_INPUT_PULLUP)	/* gpio6_11.i2c3_scl */
+			0x374 (MUX_MODE2 | PIN_INPUT_PULLUP) 	/* gpio6_10.i2c3_sda */
+			0x2AC (MUX_MODE10 | PIN_INPUT_PULLUP) 	/* mcasp1_aclkr.i2c4_sda */
+			0x2B0 (MUX_MODE10 | PIN_INPUT_PULLUP)	/* mcasp1_fsr.i2c4_scl */
+			0x2B4 (MUX_MODE10 | PIN_INPUT | SLEWCONTROL) 	/* mcasp1_axr0.i2c5_sda */
+			0x2B8 (MUX_MODE10 | PIN_INPUT | SLEWCONTROL) 	/* mcasp1_axr1.i2c5_scl */
+
+			
+			0x314 (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* mcasp2_axr4.gpio1_4 */
+			0x3D4 (MUX_MODE14 | PIN_INPUT_PULLUP | SLEWCONTROL)	/* dcan1_rx.gpio1_15 */
+			0x06C (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* gpmc_a11.gpio2_1 */
+			0x070 (MUX_MODE14 | PIN_INPUT_PULLDOWN) /* GPMC_A12.gpio2_2 */
+			0x0C0 (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* gpmc_clk.gpio2_22 */
+			0x0D4 (MUX_MODE14 | PIN_INPUT_PULLDOWN) /* gpmc_ben1.gpio2_27 */
+			0x31C (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* mcasp2_axr6.gpio2_29 */
+			0x154 (MUX_MODE14 | PIN_INPUT_PULLDOWN) /* vin2a_clk0.gpio3_28 */
+			0x2E8 (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* mcasp1_axr13.gpio6_4 */
+			0x288 (MUX_MODE0 | PIN_INPUT_PULLDOWN)	/* gpio6_14.gpio6_14 */
+			0x418 (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* Wakeup0.gpio1_0 */
+			0x41C (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* WAKEUP1.gpio1_1 */
+			0x320 (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* mcasp2_axr7.gpio1_5 */
+			0x2E0 (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* mcasp1_axr11.gpio4_17 */
+			0x2E4 (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* mcasp1_axr12.gpio4_18 */
+			0x2CC (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* mcasp1_axr6.gpio5_8 */
+			0x2D0 (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* mcasp1_axr7.gpio5_9 */
+			0x2D4 (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* mcasp1_axr8.gpio5_10 */
+			0x2D8 (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* mcasp1_axr9.gpio5_11 */
+			0x2DC (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* mcasp1_axr10.gpio5_12 */
+			0x23C (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* mdio_mclk.gpio5_15 */
+			0x240 (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* mdio_d.gpio5_16 */
+			0x24C (MUX_MODE14 | PIN_INPUT_PULLDOWN) /* uart3_txd.gpio5_19 */
+			0x274 (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* rgmii0_rxd2.gpio5_29 */
+			0x278 (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* rgmii0_rxd1.gpio5_30 */
+			0x27C (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* rgmii0_rxd0.gpio5_31 */
+			0x2EC (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* mcasp1_axr14.gpio6_5 */
+			0x2F0 (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* mcasp1_axr15.gpio6_6 */
+			0x318 (MUX_MODE14 | PIN_INPUT_PULLDOWN | MUX_VIRTUAL_MODE12)	/* mcasp2_axr5.gpio6_7 */
+			0x30C (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* mcasp2_axr2.gpio6_8 */
+			0x284 (MUX_MODE14 | PIN_INPUT_PULLDOWN) /* usb2_drvvbus.gpio6_13 */
+			0x28C (MUX_MODE0 | PIN_INPUT_PULLDOWN)	/* gpio6_15.gpio6_15 */
+			0x290 (MUX_MODE0 | PIN_INPUT_PULLDOWN)	/* gpio6_16.gpio6_16 */
+			0x298 (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* xref_clk1.gpio6_18 */
+			0x29C (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* xref_clk2.gpio6_19 */
+			0x2A0 (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* xref_clk3.gpio6_20 */
+			0x3E8 (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* uart1_ctsn.gpio7_24 */
+			0x3EC (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* uart1_rtsn.gpio7_25 */
+			0x3F0 (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* uart2_rxd.gpio7_26 */
+			0x3F4 (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* uart2_txd.gpio7_27 */
+			0x204 (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* VOUT1_D10.gpio8_10 */
+			0x1E4 (MUX_MODE14 | PIN_INPUT_PULLDOWN)	/* VOUT1_D2.gpio8_2 */
+
+			0x3E4 (MUX_MODE0 | PIN_INPUT_PULLUP | SLEWCONTROL)	/* uart1_txd.uart1_txd */
+			0x3E0 (MUX_MODE0 | PIN_INPUT_PULLUP | SLEWCONTROL)	/* uart1_rxd.uart1_rxd */
+			0x3F8 (MUX_MODE2 | PIN_INPUT_PULLUP) 	/* uart2_ctsn.uart3_rxd */
+			0x3FC (MUX_MODE1 | PIN_INPUT_PULLUP) 	/* uart2_rtsn.uart3_txd */
+			0x33C (MUX_MODE4 | PIN_INPUT_SLEW) 	/* mcasp4_axr0.uart4_rxd */
+			0x340 (MUX_MODE4 | PIN_INPUT_SLEW) 	/* mcasp4_axr1.uart4_txd */
+			0x32C (MUX_MODE4 | PIN_INPUT_PULLUP)	/* mcasp3_axr0.uart5_rxd */
+			0x330 (MUX_MODE4 | PIN_INPUT_PULLUP)	/* mcasp3_axr1.uart5_txd */
+			0x334 (MUX_MODE3 | PIN_INPUT_PULLUP)	/* mcasp4_aclkx.uart8_rxd */
+			0x338 (MUX_MODE3 | PIN_INPUT_PULLUP)	/* mcasp4_fsx.uart8_txd */
+			0x344 (MUX_MODE3 | PIN_INPUT_PULLUP)	/* mcasp5_aclkx.uart9_rxd */
+			0x348 (MUX_MODE3 | PIN_INPUT_PULLUP)	/* mcasp5_fsx.uart9_txd */
+			0x394 (MUX_MODE2 | PIN_INPUT_PULLUP) 	/* mmc3_dat4.uart10_rxd */
+			0x398 (MUX_MODE2 | PIN_INPUT_PULLUP) 	/* MMC3_DAT5.uart10_txd */
+			0x39C (MUX_MODE2 | PIN_INPUT_PULLUP) 	/* MMC3_DAT6.uart10_ctsn */
+			0x3A0 (MUX_MODE2 | PIN_INPUT_PULLUP) 	/* MMC3_DAT7.uart10_rtsn */
+		
+
+			0x2BC (MUX_MODE0 | PIN_INPUT_SLEW)	/* mcasp1_axr2.mcasp1_axr2 */
+			0x2C0 (MUX_MODE0 | PIN_INPUT_SLEW)	/* mcasp1_axr3.mcasp1_axr3 */
+			0x2C4 (MUX_MODE0 | PIN_INPUT_SLEW)	/* mcasp1_axr4.mcasp1_axr4 */
+			0x2C8 (MUX_MODE0 | PIN_INPUT_SLEW)	/* mcasp1_axr5.mcasp1_axr5 */
+			0x2A4 (MUX_MODE0 | PIN_INPUT_PULLDOWN)	/* mcasp1_aclkx.mcasp1_aclkx */
+			0x2A8 (MUX_MODE0 | PIN_INPUT_SLEW)	/* mcasp1_fsx.mcasp1_fsx */
+			0x2F8 (MUX_MODE0 | PIN_INPUT_SLEW | MUX_VIRTUAL_MODE9)	/* mcasp2_fsx.mcasp2_fsx */
+			0x2F4 (MUX_MODE0 | PIN_INPUT_PULLDOWN | MUX_VIRTUAL_MODE9)	/* mcasp2_aclkx.mcasp2_aclkx */
+			0x304 (MUX_MODE0 | PIN_INPUT_PULLDOWN | MUX_VIRTUAL_MODE12)	/* mcasp2_axr0.mcasp2_axr0 */
+			0x308 (MUX_MODE0 | PIN_INPUT_PULLDOWN | MUX_VIRTUAL_MODE12)	/* mcasp2_axr1.mcasp2_axr1 */
+			0x310 (MUX_MODE1 | PIN_INPUT_SLEW | MUX_VIRTUAL_MODE9)	/* mcasp2_axr3.mcasp3_axr3 */
+			0x324 (MUX_MODE0 | PIN_INPUT_PULLDOWN)	/* mcasp3_aclkx.mcasp3_aclkx */
+			0x328 (MUX_MODE0 | PIN_INPUT_SLEW)	/* mcasp3_fsx.mcasp3_fsx */
+	
+			0x158 MUX_MODE4 /* vin2a_de0.VOUT2_DE */
+			0x1C4 MUX_MODE4 /* vin2a_d23.VOUT2_D0 */
+			0x1C0 MUX_MODE4	/* VIN2A_D22.VOUT2_D1 */
+			0x1BC MUX_MODE4	/* VIN2A_D21.vout2_d2 */
+			0x1B8 MUX_MODE4	/* VIN2A_D20.vout2_d3 */
+			0x1B4 MUX_MODE4 /* vin2a_d19.VOUT2_D4 */
+			0x1B0 MUX_MODE4	/* VIN2A_D18.VOUT2_D5 */
+			0x1AC MUX_MODE4 /* vin2a_d17.VOUT2_D6 */
+			0x1A8 MUX_MODE4	/* VIN2A_D16.vout2_d7 */
+			0x1A4 MUX_MODE4	/* VIN2A_D15.vout2_d8 */
+			0x1A0 MUX_MODE4	/* VIN2A_D14.VOUT2_D9 */
+			0x19C MUX_MODE4 /* vin2a_d13.VOUT2_D10 */
+			0x198 MUX_MODE4 /* vin2a_d12.VOUT2_D11 */
+			0x194 MUX_MODE4	/* VIN2A_D11.VOUT2_D12 */
+			0x190 MUX_MODE4	/* VIN2A_D10.VOUT2_D13 */
+			0x18C MUX_MODE4 /* vin2a_d9.VOUT2_D14 */
+			0x188 MUX_MODE4 /* vin2a_d8.VOUT2_D15 */
+			0x184 MUX_MODE4	/* VIN2A_D7.VOUT2_D16 */
+			0x180 MUX_MODE4 /* VIN2A_D6.vout2_d17 */
+			0x17C MUX_MODE4 /* vin2a_d5.VOUT2_D18 */
+			0x178 MUX_MODE4 /* vin2a_d4.VOUT2_D19 */
+			0x174 MUX_MODE4 /* VIN2A_D3.vout2_d20 */
+			0x170 MUX_MODE4 /* VIN2A_D2.vout2_d21 */
+			0x16C MUX_MODE4 /* vin2a_d1.VOUT2_D22 */
+			0x168 MUX_MODE4 /* vin2a_d0.VOUT2_D23 */
+			0x160 MUX_MODE4 /* VIN2A_HSYNC0.vout2_hsync */
+			0x164 MUX_MODE4 /* vin2a_vsync0.VOUT2_VSYNC */
+			0x15C MUX_MODE4	/* VIN2A_FLD0.VOUT2_CLK */
+
+			0x000 MUX_MODE3	/* gpmc_ad0.VOUT3_D0 */
+			0x004 MUX_MODE3	/* gpmc_ad1.VOUT3_D1 */
+			0x008 MUX_MODE3	/* gpmc_ad2.VOUT3_D2 */
+			0x00C MUX_MODE3	/* GPMC_AD3.vout3_d3 */
+			0x010 MUX_MODE3	/* gpmc_ad4.VOUT3_D4 */
+			0x014 MUX_MODE3	/* gpmc_ad5.VOUT3_D5 */
+			0x018 MUX_MODE3 /* GPMC_AD6.vout3_d6 */	
+			0x01C MUX_MODE3	/* GPMC_AD7.vout3_d7 */
+			0x020 MUX_MODE3	/* GPMC_AD8.vout3_d8 */
+			0x024 MUX_MODE3	/* GPMC_AD9.vout3_d9 */
+			0x028 MUX_MODE3 /* GPMC_AD10.vout3_d10 */
+			0x02C MUX_MODE3	/* GPMC_AD11.vout3_d11 */
+			0x030 MUX_MODE3	/* gpmc_ad12.VOUT3_D12 */
+			0x034 MUX_MODE3	/* gpmc_ad13.VOUT3_D13 */
+			0x038 MUX_MODE3	/* gpmc_ad14.VOUT3_D14 */
+			0x03C MUX_MODE3	/* gpmc_ad15.vout3_d15 */
+			0x050 MUX_MODE3	/* GPMC_A4.VOUT3_D20 */
+			0x054 MUX_MODE3	/* GPMC_A5.VOUT3_D21 */
+			0x044 MUX_MODE3	/* GPMC_A1.VOUT3_D17 */
+			0x048 MUX_MODE3	/* gpmc_a2.VOUT3_D18 */
+			0x04C MUX_MODE3	/* GPMC_A3.vout3_d19 */
+			0x040 MUX_MODE3	/* GPMC_A0.VOUT3_D16 */
+			0x058 MUX_MODE3	/* GPMC_A6.VOUT3_D22 */
+			0x05C MUX_MODE3	/* GPMC_A7.VOUT3_D23 */
+			0x060 MUX_MODE3	/* GPMC_A7.VOUT3_HSYNC */
+			0x064 MUX_MODE3 /* GPMC_A9.vout3_vsync */
+			0x0BC MUX_MODE3 /* GPMC_CS3.vout3_clk */
+
+			0x21C MUX_MODE4	/* VOUT1_D16.VIN3A_D0 */
+			0x228 MUX_MODE4	/* VOU1_D19.VIN3A_D3 */
+			0x238 MUX_MODE4	/* VOU1_D23.VIN3A_D7 */
+			0x220 MUX_MODE4	/* VOU1_D17.VIN3A_D1 */
+			0x22C MUX_MODE4	/* VOU1_D20.VIN3A_D4 */
+			0x224 MUX_MODE4	/* VOU1_D18.VIN3A_D2 */
+			0x230 MUX_MODE4	/* VOU1_D21.VIN3A_D5 */
+			0x234 MUX_MODE4	/* VOU1_D22.VIN3A_D6 */
+			0x1D0 MUX_MODE4	/* vout1_fld.VIN3A_CLK0 */
+			
+			0x36C MUX_MODE0	/* MMC1_SDCD.MMC1_SDCD */
+			0x370 MUX_MODE0	/* MMC1_SDWP.MMC1_SDWP */
+
+			0x254 (MUX_MODE2 | PIN_INPUT )		/* rgmii0_txctl.rmii1_rxd0 */
+			0x250 (MUX_MODE2 | PIN_INPUT )		/* rgmii0_txc.rmii1_rxd1 */
+			0x270 (MUX_MODE2 | PIN_OUTPUT )	/* rgmii0_rxd3.rmii1_txd0 */
+			0x26C (MUX_MODE2 | PIN_OUTPUT )	/* rgmii0_rxctl.rmii1_txd1 */
+			0x248 (MUX_MODE2 | PIN_INPUT ) 	/* uart3_rxd.rmii1_crs */
+			0x268 (MUX_MODE2 | PIN_OUTPUT )	/* rgmii0_rxc.rmii1_txen */
+			0x244 (MUX_MODE0 | PIN_INPUT ) 					/* RMII_MHZ_50_CLK.RMII_MHZ_50_CLK */
+
+			0x3B8 (MUX_MODE5 | PIN_INPUT_PULLDOWN)	/* spi1_cs2.MDIO_MCLK */
+			0x3BC (MUX_MODE5 | PIN_INPUT_PULLDOWN)	/* spi1_cs3.MDIO_D */
+			
+			0x434 MUX_MODE0	/* TDI.TDI */
+			0x444 MUX_MODE0	/* RTCK.RTCK */
+			0x448 MUX_MODE0	/* EMU0.EMU0 */
+			0x44C MUX_MODE0	/* EMU1.EMU1 */
+
+			0x294 (MUX_MODE9 | PIN_INPUT)	/* xref_clk0.clkout2 */
+
+			0x280 MUX_MODE0	/* usb1_drvvbus.usb1_drvvbus */
+
+
+
+			0x000 MUX_MODE0	/* gpmc_ad0 */
+			0x004 MUX_MODE0	/* gpmc_ad1 */
+			0x008 MUX_MODE0	/* gpmc_ad2 */
+			0x00C MUX_MODE0	/* GPMC_AD3.gpmc_ad3 */
+			0x010 MUX_MODE0	/* gpmc_ad4 */
+			0x014 MUX_MODE0	/* gpmc_ad5 */
+			0x018 MUX_MODE0 /* GPMC_AD6.gpmc_ad6 */	
+			0x01C MUX_MODE0	/* GPMC_AD7.gpmc_ad7 */
+			0x020 MUX_MODE0	/* GPMC_AD8.gpmc_ad8 */
+			0x024 MUX_MODE0	/* GPMC_AD9.gpmc_ad9 */
+			0x028 MUX_MODE0 /* GPMC_AD10.gpmc_ad10 */
+			0x02C MUX_MODE0	/* GPMC_AD11.gpmc_ad11 */
+			0x030 MUX_MODE0	/* gpmc_ad12 */
+			0x034 MUX_MODE0	/* gpmc_ad13 */
+			0x038 MUX_MODE0	/* gpmc_ad14 */
+			0x03C MUX_MODE0	/* gpmc_ad15 */
+			0x0B4 (MUX_MODE0 | PIN_OUTPUT) 	/* gpmc_cs0.gpmc_cs0 */
+			0x0C4 (MUX_MODE0 | PIN_OUTPUT) 	/* gpmc_advn_ale.gpmc_advn_ale */
+			0x0C8 (MUX_MODE0 | PIN_OUTPUT) 	/* gpmc_oen_ren.gpmc_oen_ren */
+			0x0CC (MUX_MODE0 | PIN_OUTPUT) 	/* gpmc_wen.gpmc_wen */
+			0x0D0 (MUX_MODE0 | PIN_OUTPUT) 	/* gpmc_ben0.gpmc_ben0 */
+			0x0D8 (MUX_MODE0 | PIN_INPUT | SLEWCONTROL) 	/* gpmc_wait0.gpmc_wait0 */
+		>;
+	};
+
+	mmc3_pins_default: pinmux_mmc3_default_pins {
+		pinctrl-single,pins = <
+			0x380 (MUX_MODE0 | PIN_INPUT_PULLUP) 	/* MMC3_CMD.MMC3_CMD */
+			0x37C (MUX_MODE0 | PIN_INPUT_PULLUP) 	/* mmc3_clk.mmc3_clk */
+			0x384 (MUX_MODE0 | PIN_INPUT_PULLUP) 	/* mmc3_dat0.mmc3_dat0 */
+			0x388 (MUX_MODE0 | PIN_INPUT_PULLUP) 	/* mmc3_dat1.mmc3_dat1 */
+			0x38C (MUX_MODE0 | PIN_INPUT_PULLUP) 	/* mmc3_dat2.mmc3_dat2 */
+			0x390 (MUX_MODE0 | PIN_INPUT_PULLUP) 	/* mmc3_dat3.mmc3_dat3 */
+		>;
+	};
+
+	vin3a_pins: pinmux_vin3a_pins {
+                pinctrl-single,pins = <
+                     	0x21C MUX_MODE4	/* VOUT1_D16.VIN3A_D0 */
+			0x228 MUX_MODE4	/* VOU1_D19.VIN3A_D3 */
+			0x238 MUX_MODE4	/* VOU1_D23.VIN3A_D7 */
+			0x220 MUX_MODE4	/* VOU1_D17.VIN3A_D1 */
+			0x22C MUX_MODE4	/* VOU1_D20.VIN3A_D4 */
+			0x224 MUX_MODE4	/* VOU1_D18.VIN3A_D2 */
+			0x230 MUX_MODE4	/* VOU1_D21.VIN3A_D5 */
+			0x234 MUX_MODE4	/* VOU1_D22.VIN3A_D6 */
+			0x1D0 MUX_MODE4	/* vout1_fld.VIN3A_CLK0 */   
+                >;
+        };
+};
+
+&pbias_mmc_reg {
+	regulator-max-microvolt = <3300000>;
+};
+
+&mmc3 {
+  	/* from mmc-1 */
+	status = "okay";
+	vmmc-supply = <&evm_3v3_sw>;
+	bus-width = <4>;
+	ti,non-removable;
+	/*
+	 * SDCD signal is not being used here - using the fact that GPIO mode
+	 * is always hardwired.
+	 */
+	//cd-gpios = <&gpio7 12 GPIO_ACTIVE_LOW>;
+
+	max-frequency = <64000000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&mmc3_pins_default>;
+};
