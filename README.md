@@ -1,6 +1,7 @@
 Blueberry PI
 
 I have designed this PCB, because the sheer power of this SoC, at very low power consumption, combined with its display capabilities, it offers options that makers have never seen before.<br> 
+<br>
 There are two versions available: the 2 layer and 4 layer version.<br> 
 Have a look at the subfolder for the 2 and 4 layer version to check out the specific features.<br>
 <br>
