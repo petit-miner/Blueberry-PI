@@ -23,4 +23,4 @@ The Blueberry PI:<br>
 •	SD card slot<br>
 
 The Blueberry PI can boot from an SD card or SPI Flash. <br>
-If you have any questions email me at marcel[dot]thuermer(at)smail[dot]emt[dot]h[minus]brs[dot]de
+If you have any questions email me at info.blueberrypi@gmail.com
